@@ -1,23 +1,19 @@
-package com.tsukle.twitchchatbot.util;
+package com.tsukle.twitchchatbot.handlers;
 
 import com.tsukle.twitchchatbot.ui.config.CreateConfig;
 
 import java.io.File;
 
-public class ConfigLoader
+public class ConfigHandler
 {
     /**
      * Static so that it can be called without instantiating ConfigLoader.
      * Returns a new config file that is created using the CreateConfig panel.
      * @return - Returns a config file.
      */
-    public static File createConfig()
+    public static void createConfig()
     {
-        File returnValue = null;
-
         CreateConfig createConfigPanel = new CreateConfig();
-
-        return returnValue;
     }
 
     /**

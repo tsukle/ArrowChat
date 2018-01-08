@@ -1,5 +1,7 @@
 package com.tsukle.twitchchatbot.ui.config;
 
+import com.tsukle.twitchchatbot.config.ProfileConfig;
+import com.tsukle.twitchchatbot.serializing.Serialize;
 import com.tsukle.twitchchatbot.util.CoreHandler;
 
 import javax.swing.*;
@@ -20,6 +22,7 @@ public class CreateConfig extends JFrame
     private JLabel mLabelCurrentChannels;
     private JLabel mLabelCurrentChannelsTitle;
     private JButton mButtonAddChannel;
+    private JButton mButtonCreateConfig;
 
     private List<String> listOfChannels;
 
@@ -83,6 +86,14 @@ public class CreateConfig extends JFrame
                 mLabelCurrentChannels.setText(currentChannelsText);
                 mTextFieldChannels.setText("");
             }
+        });
+
+        mButtonCreateConfig.addActionListener(e -> {
+            CoreHandler.getConfig().setBotUsername(mTextFieldUsername.getText());
+            CoreHandler.getConfig().setBotPrivateKey(mTextFieldPrivateKey.getText());
+            CoreHandler.getConfig().setBotChannels(listOfChannels);
+
+            Serialize.saveConfig(CoreHandler.getConfig());
         });
     }
 }

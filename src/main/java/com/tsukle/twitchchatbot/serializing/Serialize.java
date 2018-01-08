@@ -9,6 +9,10 @@ import java.io.Writer;
 
 public class Serialize
 {
+    /**
+     * Save the user config to a config.json file in the program data.
+     * @param profileConfig - The profile config to serialize and save.
+     */
     public static void saveConfig(ProfileConfig profileConfig)
     {
         try(Writer writer = new FileWriter("C:/ProgramData/TsukleChatMachine/config/config.json"))

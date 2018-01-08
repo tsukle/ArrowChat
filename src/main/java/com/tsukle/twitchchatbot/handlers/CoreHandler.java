@@ -1,4 +1,4 @@
-package com.tsukle.twitchchatbot.util;
+package com.tsukle.twitchchatbot.handlers;
 
 
 import com.tsukle.twitchchatbot.config.ProfileConfig;

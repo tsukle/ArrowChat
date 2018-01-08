@@ -1,8 +1,7 @@
 package com.tsukle.twitchchatbot.ui.config;
 
-import com.tsukle.twitchchatbot.config.ProfileConfig;
 import com.tsukle.twitchchatbot.serializing.Serialize;
-import com.tsukle.twitchchatbot.util.CoreHandler;
+import com.tsukle.twitchchatbot.handlers.CoreHandler;
 
 import javax.swing.*;
 import java.awt.*;

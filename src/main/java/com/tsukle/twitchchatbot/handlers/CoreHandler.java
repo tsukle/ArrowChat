@@ -2,14 +2,18 @@ package com.tsukle.twitchchatbot.handlers;
 
 
 import com.tsukle.twitchchatbot.config.ProfileConfig;
+import com.tsukle.twitchchatbot.ui.main.MainWindow;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class CoreHandler
 {
-
-    private static ProfileConfig profileConfig = new ProfileConfig();
+    /**
+     * Variables.
+     */
+    private static MainWindow coreWindow;
+    private static ProfileConfig profileConfig;
 
     /**
      * Get the programs config.
@@ -30,23 +34,18 @@ public class CoreHandler
     }
 
     /**
-     * Static so it can be called without instantiating the class.
-     * Returns the programs Core Window.
-     * @return - Core Window Frame.
+     * Get the programs core window.
+     * @return - The core window.
      */
-    public static Frame getCoreWindow()
-    {
-        Frame returnValue = null;
+    public static MainWindow getCoreWindow() {
+        return coreWindow;
+    }
 
-        Frame[] frames = JFrame.getFrames();
-        for (Frame frame : frames)
-        {
-            if(frame.getTitle().equals("ArrowChat"))
-            {
-                returnValue = frame;
-            }
-        }
-
-        return returnValue;
+    /**
+     * Set the programs core window
+     * @param window - The window to set as the core window.
+     */
+    public static void setCoreWindow(MainWindow window) {
+        coreWindow = window;
     }
 }

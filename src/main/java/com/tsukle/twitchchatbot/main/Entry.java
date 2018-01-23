@@ -1,5 +1,6 @@
 package com.tsukle.twitchchatbot.main;
 
+import com.tsukle.twitchchatbot.handlers.CoreHandler;
 import com.tsukle.twitchchatbot.ui.main.MainWindow;
 
 import javax.swing.*;
@@ -22,5 +23,6 @@ public class Entry extends JFrame {
     public void start()
     {
         MainWindow mainWindow = new MainWindow(appTitle, appID);
+        CoreHandler.setCoreWindow(mainWindow);
     }
 }

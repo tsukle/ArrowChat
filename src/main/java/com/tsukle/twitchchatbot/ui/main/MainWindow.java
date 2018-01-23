@@ -54,6 +54,7 @@ public class MainWindow extends JFrame {
         File configFile = ConfigHandler.doesConfigExist();
         if(configFile == null)
         {
+            setVisible(false);
             ConfigHandler.createConfig();
         }
         else

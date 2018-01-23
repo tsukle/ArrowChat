@@ -2,6 +2,7 @@ package com.tsukle.twitchchatbot.serializing;
 
 import com.google.gson.Gson;
 import com.tsukle.twitchchatbot.config.ProfileConfig;
+import com.tsukle.twitchchatbot.handlers.CoreHandler;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,7 +16,7 @@ public class Serialize
      */
     public static void saveConfig(ProfileConfig profileConfig)
     {
-        try(Writer writer = new FileWriter("C:/ProgramData/TsukleChatMachine/config/config.json"))
+        try(Writer writer = new FileWriter(CoreHandler.getConfig().getBotDirectory() + "/config/config.json"))
         {
            Gson gson = new Gson();
            gson.toJson(profileConfig, writer);

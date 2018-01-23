@@ -6,7 +6,9 @@ import com.tsukle.twitchchatbot.handlers.CoreHandler;
 import com.tsukle.twitchchatbot.ui.ColorPalette.ColorPalette;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +26,11 @@ public class CreateConfig extends JFrame
     private JLabel mLabelCurrentChannelsTitle;
     private JButton mButtonAddChannel;
     private JButton mButtonCreateConfig;
+    private JButton mButtonDirectory;
+    private JLabel mLabelDirectory;
 
     private List<String> listOfChannels;
+    private String programDirectory;
 
     public CreateConfig()
     {
@@ -43,6 +48,10 @@ public class CreateConfig extends JFrame
 
         //Instanciate lists.
         listOfChannels = new ArrayList<>();
+        programDirectory = FileSystemView.getFileSystemView().getDefaultDirectory().getPath();
+
+        //Labels
+        mLabelDirectory.setText("Current Directory: " + programDirectory);
 
         // Set listeners.
         addListeners();
@@ -81,6 +90,20 @@ public class CreateConfig extends JFrame
             }
         });
 
+        mButtonDirectory.addActionListener((ActionEvent e) -> {
+            JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getDefaultDirectory());
+            fileChooser.setDialogTitle("Choose a directory to save your file: ");
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+            int returnValue = fileChooser.showSaveDialog(this);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                if (fileChooser.getSelectedFile().isDirectory()) {
+                    mLabelDirectory.setText("Current Directory: " + fileChooser.getSelectedFile().getName());
+                }
+            }
+
+        });
+
         mButtonCreateConfig.addActionListener(e -> {
             if(mTextFieldUsername.getText().equals(""))
             {
@@ -101,9 +124,14 @@ public class CreateConfig extends JFrame
                 profileConfig.setBotUsername(mTextFieldUsername.getText());
                 profileConfig.setBotPrivateKey(mTextFieldPrivateKey.getText());
                 profileConfig.setBotChannels(listOfChannels);
+                profileConfig.setBotDirectory(programDirectory);
 
                 CoreHandler.setConfig(profileConfig);
                 Serialize.saveConfig(CoreHandler.getConfig());
+
+                CoreHandler.getCoreWindow().setVisible(true);
+                setVisible(false);
+                dispose();
             }
         });
     }

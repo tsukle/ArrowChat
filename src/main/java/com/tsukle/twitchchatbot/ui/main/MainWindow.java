@@ -5,6 +5,8 @@ import com.tsukle.twitchchatbot.handlers.CoreHandler;
 import com.tsukle.twitchchatbot.serializing.Deserialize;
 
 import javax.swing.*;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import java.io.File;
 
 public class MainWindow extends JFrame {
@@ -14,6 +16,7 @@ public class MainWindow extends JFrame {
     private JComboBox mComboBoxChannels;
     private JPanel mPanelBotSetup;
     private JButton mButtonJoin;
+    private JPanel mPanelContent;
 
     private String appTitle;
     private double appID;
@@ -30,7 +33,7 @@ public class MainWindow extends JFrame {
         setSize(400, 600);
         setLocationRelativeTo(null);
         setResizable(false);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); // Don't remove this. (Learnt the hard way when pc crashed with hundreds of open processes.)
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         add(mPanelMain);
         revalidate();
@@ -63,8 +66,8 @@ public class MainWindow extends JFrame {
 
             // Setup rest of the form based on config.
             setupComponents();
-            addListeners();
         }
+        addListeners();
     }
 
     /**
@@ -72,11 +75,16 @@ public class MainWindow extends JFrame {
      */
     public void setupComponents()
     {
-        mLabelBotUsername.setText(CoreHandler.getConfig().getBotUsername());
+        mLabelBotUsername.setText("Bot - " + CoreHandler.getConfig().getBotUsername());
+        refillComboBox();
+    }
+
+    private void refillComboBox()
+    {
+        mComboBoxChannels.removeAllItems();
 
         for (String channel : CoreHandler.getConfig().getBotChannels())
         {
-
             mComboBoxChannels.addItem(channel);
         }
     }
@@ -84,10 +92,27 @@ public class MainWindow extends JFrame {
     /**
      * Adds listeners to all of the main items in the window.
      */
-    public void addListeners()
+    private void addListeners()
     {
         mButtonJoin.addActionListener(e -> {
             // Create an IRC connection to the chat.
+        });
+
+        mComboBoxChannels.addPopupMenuListener(new PopupMenuListener() {
+            @Override
+            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+                refillComboBox();
+            }
+
+            @Override
+            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+                refillComboBox();
+            }
+
+            @Override
+            public void popupMenuCanceled(PopupMenuEvent e) {
+                refillComboBox();
+            }
         });
     }
 

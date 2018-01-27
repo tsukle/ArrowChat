@@ -48,4 +48,12 @@ public class CoreHandler
     public static void setCoreWindow(MainWindow window) {
         coreWindow = window;
     }
+
+    /**
+     * Get the program directory.
+     * @return - Returns the program directory.
+     */
+    public static String getProgramDirectory() {
+        return "C:/ProgramData/ArrowChat";
+    }
 }

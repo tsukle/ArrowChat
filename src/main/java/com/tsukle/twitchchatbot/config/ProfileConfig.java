@@ -19,10 +19,6 @@ public class ProfileConfig
     @SerializedName("BOT_CHANNELS")
     private List<String> BOT_CHANNELS;
 
-    @Expose
-    @SerializedName("BOT_DIRECTORY")
-    private String BOT_DIRECTORY;
-
 
     /**
      * Returns the bots username.
@@ -80,21 +76,5 @@ public class ProfileConfig
     public void setBotChannels(List<String> botChannels)
     {
         this.BOT_CHANNELS = botChannels;
-    }
-
-    /**
-     * Get the bots save directory.
-     * @return - String value of the bots directory.
-     */
-    public String getBotDirectory() {
-        return BOT_DIRECTORY;
-    }
-
-    /**
-     * Set the bots save directory.
-     * @param dir - The string value of the directory to set as the bots save directory.
-     */
-    public void setBotDirectory(String dir) {
-        BOT_DIRECTORY = dir;
     }
 }

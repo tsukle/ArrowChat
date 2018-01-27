@@ -57,12 +57,7 @@ public class ProfileConfig
      */
     public void setBotPrivateKey(String botPrivateKey)
     {
-        // Null checking the private key so that it can never be null.
-        if(botPrivateKey == null) { }
-        else
-        {
-            this.BOT_PRIVATE_KEY = botPrivateKey;
-        }
+        this.BOT_PRIVATE_KEY = botPrivateKey;
     }
 
     /**
@@ -80,11 +75,6 @@ public class ProfileConfig
      */
     public void setBotChannels(List<String> botChannels)
     {
-        // Run a null check on the bot channels so that it can never be a null value.
-        if(botChannels == null) { }
-        else
-        {
-            this.BOT_CHANNELS = botChannels;
-        }
+        this.BOT_CHANNELS = botChannels;
     }
 }

@@ -25,7 +25,7 @@ public class ConfigHandler
     {
         File returnValue = null;
 
-        File userProgramData = new File("C:/ProgramData/TsukleChatMachine/config");
+        File userProgramData = new File(CoreHandler.getProgramDirectory() + "/config");
 
         // Check if the directory exists.
         if(userProgramData.exists() && userProgramData.isDirectory())

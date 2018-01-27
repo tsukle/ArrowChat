@@ -154,7 +154,7 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <foreground color="-12012869"/>
+                  <foreground color="-4736070"/>
                   <text value="Current Channels:"/>
                 </properties>
               </component>

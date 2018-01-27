@@ -1,10 +1,14 @@
 package com.tsukle.twitchchatbot.ui.config;
 
+import com.tsukle.twitchchatbot.config.ProfileConfig;
 import com.tsukle.twitchchatbot.serializing.Serialize;
 import com.tsukle.twitchchatbot.handlers.CoreHandler;
+import com.tsukle.twitchchatbot.ui.ColorPalette.ColorPalette;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +26,10 @@ public class CreateConfig extends JFrame
     private JLabel mLabelCurrentChannelsTitle;
     private JButton mButtonAddChannel;
     private JButton mButtonCreateConfig;
+    private JLabel mLabelDirectory;
 
     private List<String> listOfChannels;
+    private String programDirectory;
 
     public CreateConfig()
     {
@@ -32,14 +38,16 @@ public class CreateConfig extends JFrame
         setSize(500, 500);
         setLocationRelativeTo(CoreHandler.getCoreWindow());
         setResizable(false);
+        mLabelCurrentChannelsTitle.setForeground(new Color(ColorPalette.textTitleAccent.getRGB()));
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); // Make sure to keep this.
         setVisible(true);
         add(mPanelMain);
         revalidate();
         repaint();
 
-        //Instanciate lists.
+        //Instantiate lists.
         listOfChannels = new ArrayList<>();
+        programDirectory = FileSystemView.getFileSystemView().getDefaultDirectory().getPath();
 
         // Set listeners.
         addListeners();
@@ -54,16 +62,7 @@ public class CreateConfig extends JFrame
             // If no channel was specified.
             if(mTextFieldChannels.getText().equals(""))
             {
-                JDialog jDialog = new JDialog(this, "No channel name provided.", true);
-                jDialog.setSize(250, 150);
-                jDialog.setLocationRelativeTo(this);
-                jDialog.setResizable(false);
-                jDialog.setAlwaysOnTop(true);
-                jDialog.setLayout(new GridBagLayout());
-                JLabel jLabel = new JLabel("Please enter a channel name.");
-                jDialog.add(jLabel);
-                jDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-                jDialog.setVisible(true);
+                showDialog("Warning", "Please enter a channel name.", true);
             }
 
             // If a channel was specified.
@@ -88,11 +87,61 @@ public class CreateConfig extends JFrame
         });
 
         mButtonCreateConfig.addActionListener(e -> {
-            CoreHandler.getConfig().setBotUsername(mTextFieldUsername.getText());
-            CoreHandler.getConfig().setBotPrivateKey(mTextFieldPrivateKey.getText());
-            CoreHandler.getConfig().setBotChannels(listOfChannels);
+            if(mTextFieldUsername.getText().equals(""))
+            {
+                showDialog("Warning", "Please enter a username.", true);
+            }
+            else if(mTextFieldPrivateKey.getText().equals(""))
+            {
+                showDialog("Warning", "Please enter a privatekey.", true);
+            }
+            else if(listOfChannels.size() == 0)
+            {
+                showDialog("Warning", "Please add at least one channel to the channel list.", false);
+            }
+            else
+            {
+                ProfileConfig profileConfig = new ProfileConfig();
 
-            Serialize.saveConfig(CoreHandler.getConfig());
+                profileConfig.setBotUsername(mTextFieldUsername.getText());
+                profileConfig.setBotPrivateKey(mTextFieldPrivateKey.getText());
+                profileConfig.setBotChannels(listOfChannels);
+
+                CoreHandler.setConfig(profileConfig);
+                Serialize.saveConfig(profileConfig);
+
+                CoreHandler.getCoreWindow().setupComponents();
+                CoreHandler.getCoreWindow().setVisible(true);
+                setVisible(false);
+                dispose();
+            }
         });
+    }
+
+    private void showDialog(String title, String label, boolean isLabel)
+    {
+        JDialog jDialog = new JDialog(this, title, true);
+        jDialog.setSize(250, 150);
+        jDialog.setLocationRelativeTo(this);
+        jDialog.setResizable(false);
+        jDialog.setAlwaysOnTop(true);
+        jDialog.setLayout(new GridBagLayout());
+        if(isLabel == true)
+        {
+            JLabel jLabel = new JLabel(label);
+            jDialog.add(jLabel);
+        }
+        else
+        {
+            JTextArea jTextArea = new JTextArea(label);
+            jTextArea.setLineWrap(true);
+            jTextArea.setWrapStyleWord(true);
+            jTextArea.setEditable(false);
+            jTextArea.setBackground(new Color(0, 0, 0, 0));
+            jTextArea.setSize(jDialog.getWidth() - 20, jDialog.getHeight() - 20);
+            jDialog.add(jTextArea);
+        }
+        jDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        jDialog.setVisible(true);
     }
 }

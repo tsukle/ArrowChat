@@ -1,8 +1,11 @@
 package com.tsukle.twitchchatbot.serializing;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.tsukle.twitchchatbot.config.ProfileConfig;
+import com.tsukle.twitchchatbot.handlers.CoreHandler;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -15,14 +18,21 @@ public class Serialize
      */
     public static void saveConfig(ProfileConfig profileConfig)
     {
-        try(Writer writer = new FileWriter("C:/ProgramData/TsukleChatMachine/config/config.json"))
+        File file = new File(CoreHandler.getProgramDirectory() + "/config");
+
+        if(!file.exists())
         {
-           Gson gson = new Gson();
-           gson.toJson(profileConfig, writer);
+            file.mkdirs();
+        }
+
+        try(Writer writer = new FileWriter(CoreHandler.getProgramDirectory() + "/config/config.json"))
+        {
+            Gson gson = new GsonBuilder().create();
+            gson.toJson(profileConfig, writer);
         }
         catch(IOException e)
         {
-           e.printStackTrace();
+            e.printStackTrace();
         }
     }
 }

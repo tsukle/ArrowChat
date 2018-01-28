@@ -3,10 +3,13 @@ package com.tsukle.twitchchatbot.ui.main;
 import com.tsukle.twitchchatbot.handlers.ConfigHandler;
 import com.tsukle.twitchchatbot.handlers.CoreHandler;
 import com.tsukle.twitchchatbot.serializing.Deserialize;
+import com.tsukle.twitchchatbot.ui.ColorPalette.ColorPalette;
+import com.tsukle.twitchchatbot.ui.genericcomponents.ConnectionPanel;
 
 import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
+import java.awt.*;
 import java.io.File;
 
 public class MainWindow extends JFrame {
@@ -28,14 +31,18 @@ public class MainWindow extends JFrame {
      */
     public MainWindow(String appTitle, double appID)
     {
+        // Set Colours
+        mLabelBotUsername.setForeground(new Color(ColorPalette.textTitleAccent.getRGB()));
+
         // Default window setup.
         setTitle("ArrowChat");
-        setSize(400, 600);
+        setSize(500, 700);
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         add(mPanelMain);
+        mPanelContent.setMaximumSize(new Dimension(400, 500));
         revalidate();
         repaint();
 
@@ -96,6 +103,11 @@ public class MainWindow extends JFrame {
     {
         mButtonJoin.addActionListener(e -> {
             // Create an IRC connection to the chat.
+            ConnectionPanel connectionPanel = new ConnectionPanel((String) mComboBoxChannels.getSelectedItem());
+            mPanelContent.setSize(this.getWidth(), 500);
+            mPanelContent.add(connectionPanel.getPanel());
+            mPanelContent.revalidate();
+            mPanelContent.repaint();
         });
 
         mComboBoxChannels.addPopupMenuListener(new PopupMenuListener() {

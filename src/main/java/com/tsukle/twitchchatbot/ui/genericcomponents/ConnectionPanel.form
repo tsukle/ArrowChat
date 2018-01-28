@@ -58,11 +58,9 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="2d480" class="javax.swing.JTextArea" binding="mTextAreaChat">
+                  <component id="944c1" class="javax.swing.JTextArea" binding="mTextAreaChat">
                     <constraints/>
-                    <properties>
-                      <lineWrap value="true"/>
-                    </properties>
+                    <properties/>
                   </component>
                 </children>
               </scrollpane>

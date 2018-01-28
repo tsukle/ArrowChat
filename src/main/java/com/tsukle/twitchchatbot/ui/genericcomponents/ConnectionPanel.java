@@ -27,11 +27,14 @@ public class ConnectionPanel extends JPanel{
 
         // Scroll Pane Setup.
         mScrollPaneChat.getVerticalScrollBar().setUnitIncrement(16);
+        mScrollPaneChat.setAutoscrolls(true);
+        mScrollPaneChat.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         // Chat Text Area Setup.
         mTextAreaChat.setAutoscrolls(true);
+        mTextAreaChat.setLineWrap(true);
+        mTextAreaChat.setWrapStyleWord(true);
         mTextAreaChat.setEditable(false);
-        mTextAreaChat.setText("Not connected to chat.");
 
         setupChat(channelName);
     }
@@ -42,11 +45,12 @@ public class ConnectionPanel extends JPanel{
      */
     public void setupChat(String channelName)
     {
-        // Add a listener to this for the chat shit...
-        new IRCConnection(channelName, new ChatListener()
-        {
-            @Override
-            public void chatUpdated(String message)
+        /**
+         * Create an IRC Connection in a new thread and run an event listener to add to the chat.
+         * The return string type is what the ChatListener sends when it is fired.
+         */
+        new IRCConnection(channelName, (String message) -> {
+            if(!message.equals("Server Message."))
             {
                 newMessage(message);
             }
@@ -56,6 +60,7 @@ public class ConnectionPanel extends JPanel{
     private void newMessage(String message)
     {
         mTextAreaChat.append("\n" + message + "\n");
+        mTextAreaChat.setCaretPosition(mTextAreaChat.getDocument().getLength());
     }
 
     /**

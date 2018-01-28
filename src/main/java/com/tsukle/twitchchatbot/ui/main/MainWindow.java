@@ -24,6 +24,8 @@ public class MainWindow extends JFrame {
     private String appTitle;
     private double appID;
 
+    private String currentlyJoinedChannel;
+
     /**
      * Constructor renders the window and sets out all of the information in the program.
      * @param appTitle - String value for the title of the app.
@@ -31,6 +33,9 @@ public class MainWindow extends JFrame {
      */
     public MainWindow(String appTitle, double appID)
     {
+        // Instantiating Variables.
+        currentlyJoinedChannel = "";
+
         // Set Colours
         mLabelBotUsername.setForeground(new Color(ColorPalette.textTitleAccent.getRGB()));
 
@@ -94,6 +99,11 @@ public class MainWindow extends JFrame {
         {
             mComboBoxChannels.addItem(channel);
         }
+
+        if(currentlyJoinedChannel != null || currentlyJoinedChannel.equals("") == false)
+        {
+            mComboBoxChannels.setSelectedItem(currentlyJoinedChannel);
+        }
     }
 
     /**
@@ -102,8 +112,10 @@ public class MainWindow extends JFrame {
     private void addListeners()
     {
         mButtonJoin.addActionListener(e -> {
+            mPanelContent.removeAll();
             // Create an IRC connection to the chat.
             ConnectionPanel connectionPanel = new ConnectionPanel((String) mComboBoxChannels.getSelectedItem());
+            currentlyJoinedChannel = (String) mComboBoxChannels.getSelectedItem();
             mPanelContent.setSize(this.getWidth(), 500);
             mPanelContent.add(connectionPanel.getPanel());
             mPanelContent.revalidate();
@@ -118,7 +130,7 @@ public class MainWindow extends JFrame {
 
             @Override
             public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-                refillComboBox();
+                //Don't reset it here.
             }
 
             @Override

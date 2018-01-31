@@ -24,11 +24,6 @@ public class ConnectionPanel extends JPanel{
      */
     public ConnectionPanel(String channelName)
     {
-        setBackground(new Color(60, 60, 60));
-        mPanelMain.setBackground(new Color(60, 60, 60));
-        mPanelContents.setBackground(new Color(60, 60, 60));
-        mPanelTitle.setBackground(new Color(60, 60, 60));
-
         // Title Setup.
         mLabelTitle.setOpaque(false);
         mLabelTitle.setBackground(new Color(60, 60, 60));
@@ -45,8 +40,6 @@ public class ConnectionPanel extends JPanel{
         mTextAreaChat.setLineWrap(true);
         mTextAreaChat.setWrapStyleWord(true);
         mTextAreaChat.setEditable(false);
-        mTextAreaChat.setForeground(new Color(210, 210, 210));
-        mTextAreaChat.setBackground(new Color(70, 70, 70));
 
         setupChat(channelName);
     }
